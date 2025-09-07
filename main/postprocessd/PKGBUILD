@@ -1,0 +1,21 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+pkgname=postprocessd
+pkgver=0.3.0
+pkgrel=2
+pkgdesc="A native postprocessing pipeline for Megapixels"
+url="https://gitlab.com/megapixels-org/postprocessd"
+license=('GPL')
+arch=('x86_64' 'armv7h' 'aarch64')
+depends=('libraw' 'libtiff4' 'libjpeg-turbo' 'libexif' 'opencv' 'lensfun')
+makedepends=('scdoc' 'meson' 'ninja')
+source=("https://gitlab.com/megapixels-org/postprocessd/-/archive/master/postprocessd-master.tar.gz?ref_type=heads")
+sha256sums=('ca5a2893ca92e2a813e2b8d5e7ef4962e857e3a55e918d77b9f86e810cafe5a5')
+
+build() {
+    arch-meson $pkgname-master build
+    ninja -C build
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C build install
+}

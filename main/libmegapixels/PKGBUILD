@@ -1,0 +1,25 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+pkgname=libmegapixels
+pkgver=0.2.2
+pkgrel=1
+pkgdesc="Device abstraction for Megapixels."
+url="https://gitlab.com/megapixels-org/libmegapixels"
+license=('GPL-3.0-or-later')
+arch=('x86_64' 'armv7h' 'aarch64')
+depends=()
+makedepends=('meson' 'ninja' 'scdoc' 'libconfig')
+optdepends=()
+source=("https://gitlab.com/megapixels-org/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz"
+        )
+sha256sums=('7ee4e1ecea927c2025e20be1d2081b9fd61aaebb375fcdd57d3b829f818ac6df')
+
+build() {
+    arch-meson $pkgname-$pkgver build
+    ninja -C build
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C build install
+
+  
+}

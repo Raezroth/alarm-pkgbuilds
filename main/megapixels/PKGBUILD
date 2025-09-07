@@ -1,0 +1,27 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+pkgname=megapixels
+pkgver=2.0.0
+pkgrel="2"
+pkgdesc="The Linux-phone camera application"
+url="https://gitlab.com/megapixels-org/Megapixels"
+license=('GPL-3.0-or-later')
+arch=('x86_64' 'armv7h' 'aarch64')
+depends=('feedbackd' 'glib2' 'gtk4' 'imagemagick' 'libdng' 'libmegapixels' 'libraw' 'postprocessd' 'zbar')
+makedepends=('meson' 'ninja')
+optdepends=()
+replaces=('pinhole' 'gnome-camera')
+source=("https://gitlab.com/megapixels-org/Megapixels/-/archive/master/Megapixels-master.tar.gz"
+        '90-megapixels.rules')
+sha256sums=('bc885c6a92cc762c6b96e3f2441994edde4494a7f537f0e38c35fb0fabd181cf'
+            'c9ff69c5963f6231ac6a7de5adc3e0327f47b501de9b084b49546bfb00e7fc58')
+
+build() {
+    arch-meson ${pkgname^}-master build
+    ninja -C build
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C build install
+
+    install -Dm644 "${srcdir}/90-megapixels.rules" -t "${pkgdir}/usr/lib/udev/rules.d/"
+}

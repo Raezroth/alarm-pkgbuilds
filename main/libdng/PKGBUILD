@@ -1,0 +1,25 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+pkgname=libdng
+pkgver=0.2.1
+pkgrel=1
+pkgdesc="Library for generating valid DNG files."
+url="https://gitlab.com/megapixels-org/libdng"
+license=('GPL-3.0-or-later')
+arch=('x86_64' 'armv7h' 'aarch64')
+depends=()
+makedepends=('meson' 'ninja' 'scdoc')
+optdepends=()
+source=("https://gitlab.com/megapixels-org/libdng/-/archive/0.2.1/libdng-0.2.1.tar.gz"
+        )
+sha256sums=('b823ea9b29960a461865f17518ac0e5c5e31b89df9ec377df4a28cf075a94de4')
+
+build() {
+    arch-meson $pkgname-$pkgver build
+    ninja -C build
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C build install
+
+  
+}
